@@ -1,0 +1,28 @@
+FROM debian:buster
+
+LABEL maintainer="pricea35@cardiff.ac.uk" \
+software="trimgalore" \
+software.version="0.6.5" \
+about.summary="Trim fastq using trim_galore" \
+about.home="https://github.com/FelixKrueger/TrimGalore"
+
+ENV FastQC_version=0.11.7 \
+TrimGalore_version=0.6.5
+
+ENV PACKAGES="wget parallel openjdk-11-jre-headless python3.7 python3-cutadapt cutadapt unzip libfindbin-libs-perl"
+
+RUN apt-get update \
+&& apt-get install -y $PACKAGES
+
+RUN wget https://www.bioinformatics.babraham.ac.uk/projects/fastqc/fastqc_v${FastQC_version}.zip \
+&& unzip fastqc_v${FastQC_version}.zip \
+&& chmod +x FastQC/fastqc \
+&& mv FastQC /usr/local/bin \
+&& rm -r fastqc*
+
+ENV PATH ${PATH}:/usr/local/bin/FastQC/
+
+RUN wget -O trim_galore.tar.gz https://github.com/FelixKrueger/TrimGalore/archive/${TrimGalore_version}.tar.gz \
+&& tar -xzf trim_galore.tar.gz \
+&& mv TrimGalore-${TrimGalore_version}/trim_galore /usr/local/bin \
+&& rm -r trim_galore*
