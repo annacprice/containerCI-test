@@ -1,5 +1,6 @@
 Bootstrap: docker
 From: debian:buster
+Stage: spython-base
 
 %labels
 maintainer="pricea35@cardiff.ac.uk" 
@@ -10,17 +11,17 @@ about.home="https://github.com/DerrickWood/kraken2"
 %post
 
 
-kraken_version=2.0.8
+kraken2_version=2.0.8
 
 apt-get update && apt-get install -y gcc g++ wget parallel build-essential rsync unzip ncbi-blast+ \
-&& wget https://github.com/DerrickWood/kraken2/archive/v${kraken_version}-beta.tar.gz \
-&& tar -xzf v${kraken_version}-beta.tar.gz \
-&& rm v${kraken_version}-beta.tar.gz \
-&& cd kraken2-${kraken+version}-beta \
+&& wget https://github.com/DerrickWood/kraken2/archive/v${kraken2_version}-beta.tar.gz \
+&& tar -xzf v${kraken2_version}-beta.tar.gz \
+&& rm v${kraken2_version}-beta.tar.gz \
+&& cd kraken2-${kraken2_version}-beta \
 && ./install_kraken2.sh /usr/local/bin
 
 %environment
-export kraken_version=2.0.8
+export kraken2_version=2.0.8
 %runscript
 exec /bin/bash "$@"
 %startscript
