@@ -1,0 +1,21 @@
+FROM debian:buster
+
+LABEL maintainer="pricea35@cardiff.ac.uk" \
+software="krona" \
+software.version="2.7.1" \
+about.summary="Interactively explore metagenomes using krona" \
+about.home="https://github.com/marbl/Krona"
+
+ENV krona_version=2.7.1
+
+ENV PACKAGES="wget parallel make perl curl"
+
+RUN apt-get update \
+&& apt-get install -y $PACKAGES \
+&& wget -O krona.tar.gz https://github.com/marbl/Krona/archive/v${krona_version}.tar.gz \
+&& tar -xzf krona.tar.gz \
+&& mkdir -p Krona-${krona_version}/KronaTools/taxonomy \
+&& cd /Krona-${krona_version}/KronaTools \
+&& ./install.pl \
+&& ./updateTaxonomy.sh
+
