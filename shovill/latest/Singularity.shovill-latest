@@ -4,13 +4,13 @@ From: debian:buster
 %labels
 maintainer="pricea35@cardiff.ac.uk" 
 software="shovill" 
-software.version="1.0.0" 
+software.version="1.1.0" 
 about.summary="Assemble bacterial isolate genomes from Illumina paired-end reads using shovill" 
 about.home="https://github.com/tseemann/shovill"
 %post
 
 
-SPAdes_version=3.14.0
+SPAdes_version=3.14.1
 SKESA_version=2.3.0
 MEGAHIT_version=1.2.9
 velvet_version=1.2.10
@@ -22,11 +22,12 @@ samtools_version=1.10
 Mash_version=2.1.1
 seqtk_version=1.3
 pigz_version=2.4
-Trimmomatic_version=0.36
+Trimmomatic_version=0.38
 pilon_version=1.22
-shovill_version=1.0.0
+KMC_version=3.1.1
+shovill_version=1.1.0
 
-PACKAGES="wget parallel python make g++ openjdk-11-jre pilon"
+PACKAGES="wget parallel python make g++ openjdk-11-jre"
 
 PACKAGES2="zlib1g-dev libc6-dev bc unzip libbz2-dev liblzma-dev libcurl4-openssl-dev libncurses5-dev libfindbin-libs-perl"
 
@@ -40,7 +41,9 @@ wget http://cab.spbu.ru/files/release${SPAdes_version}/SPAdes-${SPAdes_version}-
 && wget https://github.com/voutcn/megahit/releases/download/v${MEGAHIT_version}/MEGAHIT-${MEGAHIT_version}-Linux-x86_64-static.tar.gz \
 && tar -xzf MEGAHIT-${MEGAHIT_version}-Linux-x86_64-static.tar.gz  -C /usr/local/bin
 
-wget https://www.ebi.ac.uk/~zerbino/velvet/velvet_${velvet_version}.tgz \
+wget -O KMC.tar.gz https://github.com/refresh-bio/KMC/releases/download/v${KMC_version}/KMC${KMC_version}.linux.tar.gz \
+&& tar -xzf KMC.tar.gz -C /usr/local/bin \
+&& wget https://www.ebi.ac.uk/~zerbino/velvet/velvet_${velvet_version}.tgz \
 && tar -xzf velvet_${velvet_version}.tgz -C /usr/local/bin \
 && make -C /usr/local/bin/velvet_${velvet_version} \
 && chmod +x /usr/local/bin/velvet_${velvet_version}/velvet* \
@@ -81,18 +84,21 @@ wget zlib.net/pigz/pigz-${pigz_version}.tar.gz \
 && chmod +x /usr/local/bin/samclip \
 && wget http://www.usadellab.org/cms/uploads/supplementary/Trimmomatic/Trimmomatic-${Trimmomatic_version}.zip \
 && unzip Trimmomatic-${Trimmomatic_version}.zip \
-&& echo 'java -jar ~/src/Trimmomatic-0.36/trimmomatic-0.36.jar $@' >> /usr/bin/trimmomatic \
-&& chmod +x /usr/bin/trimmomatic
+&& echo 'java -jar /Trimmomatic-${Trimmomatic_version}/trimmomatic-${Trimmomatic_version}.jar $@' >> /usr/local/bin/trimmomatic \
+&& chmod +x /usr/local/bin/trimmomatic \
+&& wget https://github.com/broadinstitute/pilon/releases/download/v${pilon_version}/pilon-${pilon_version}.jar \
+&& echo 'java -jar pilon-${pilon_version}.jar $@' >> /usr/local/bin/pilon \
+&& chmod +x /usr/local/bin/pilon
 
 wget -O shovill-${shovill_version}.tar.gz https://github.com/tseemann/shovill/archive/v${shovill_version}.tar.gz \
 && tar -xzf shovill-${shovill_version}.tar.gz -C /usr/local/bin \
 && chmod +x /usr/local/bin/shovill-${shovill_version}/bin/shovill \
 && rm *.tar.gz *.tar *.tgz *.zip
 
-PATH=${PATH}:/usr/local/bin/SPAdes-${SPAdes_version}-Linux/bin:/usr/local/bin/MEGAHIT-${MEGAHIT_version}-Linux-x86_64-static/bin:/usr/local/bin/velvet_${velvet_version}:/usr/local/bin/Lighter-${Lighter_version}:/usr/local/bin/bwa-${bwa_version}:/usr/local/bin/seqtk-${seqtk_version}:/usr/local/bin/pigz-${pigz_version}:/usr/local/bin/shovill-${shovill_version}/bin
+PATH=${PATH}:/usr/local/bin/SPAdes-${SPAdes_version}-Linux/bin:/usr/local/bin/MEGAHIT-${MEGAHIT_version}-Linux-x86_64-static/bin:/usr/local/bin/KMC${KMC_version}.linux:/usr/local/bin/velvet_${velvet_version}:/usr/local/bin/Lighter-${Lighter_version}:/usr/local/bin/bwa-${bwa_version}:/usr/local/bin/seqtk-${seqtk_version}:/usr/local/bin/pigz-${pigz_version}:/usr/local/bin/shovill-${shovill_version}/bin
 
 %environment
-export SPAdes_version=3.14.0
+export SPAdes_version=3.14.1
 export SKESA_version=2.3.0
 export MEGAHIT_version=1.2.9
 export velvet_version=1.2.10
@@ -104,12 +110,13 @@ export samtools_version=1.10
 export Mash_version=2.1.1
 export seqtk_version=1.3
 export pigz_version=2.4
-export Trimmomatic_version=0.36
+export Trimmomatic_version=0.38
 export pilon_version=1.22
-export shovill_version=1.0.0
-export PACKAGES="wget parallel python make g++ openjdk-11-jre pilon"
+export KMC_version=3.1.1
+export shovill_version=1.1.0
+export PACKAGES="wget parallel python make g++ openjdk-11-jre"
 export PACKAGES2="zlib1g-dev libc6-dev bc unzip libbz2-dev liblzma-dev libcurl4-openssl-dev libncurses5-dev libfindbin-libs-perl"
-export PATH=${PATH}:/usr/local/bin/SPAdes-${SPAdes_version}-Linux/bin:/usr/local/bin/MEGAHIT-${MEGAHIT_version}-Linux-x86_64-static/bin:/usr/local/bin/velvet_${velvet_version}:/usr/local/bin/Lighter-${Lighter_version}:/usr/local/bin/bwa-${bwa_version}:/usr/local/bin/seqtk-${seqtk_version}:/usr/local/bin/pigz-${pigz_version}:/usr/local/bin/shovill-${shovill_version}/bin
+export PATH=${PATH}:/usr/local/bin/SPAdes-${SPAdes_version}-Linux/bin:/usr/local/bin/MEGAHIT-${MEGAHIT_version}-Linux-x86_64-static/bin:/usr/local/bin/KMC${KMC_version}.linux:/usr/local/bin/velvet_${velvet_version}:/usr/local/bin/Lighter-${Lighter_version}:/usr/local/bin/bwa-${bwa_version}:/usr/local/bin/seqtk-${seqtk_version}:/usr/local/bin/pigz-${pigz_version}:/usr/local/bin/shovill-${shovill_version}/bin
 %runscript
 exec /bin/bash "$@"
 %startscript
