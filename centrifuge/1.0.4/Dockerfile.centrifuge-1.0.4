@@ -1,0 +1,19 @@
+FROM debian:buster
+
+LABEL maintainer="pricea35@cardiff.ac.uk" \
+software="centrifuge" \
+software.version="1.0.4-beta" \
+about.summary="Taxonomic sequence classification using centrifuge" \
+about.home="https://github.com/DaehwanKimLab/centrifuge"
+
+ENV centrifuge_version=1.0.4-beta
+
+ENV PACKAGES="wget parallel make g++ gcc libbz2-dev liblzma-dev zlib1g-dev perl" \
+PYTHON="python python-pip"
+
+RUN apt-get update \
+&& apt-get -y install $PACKAGES $PYTHON \
+&& wget -O centrifuge-${centrifuge_version}.tar.gz "https://github.com/infphilo/centrifuge/archive/v${centrifuge_version}.tar.gz" \
+&& tar -xzf centrifuge-${centrifuge_version}.tar.gz -C /usr/local/bin  \
+&& make -C /usr/local/bin/centrifuge-${centrifuge_version} -j 4 \
+&& make install -C /usr/local/bin/centrifuge-${centrifuge_version}
