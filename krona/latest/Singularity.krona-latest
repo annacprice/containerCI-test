@@ -3,7 +3,7 @@ From: debian:buster
 
 %labels
 maintainer="pricea35@cardiff.ac.uk" 
-software="krona" 
+software="Krona" 
 software.version="2.7.1" 
 about.summary="Interactively explore metagenomes using krona" 
 about.home="https://github.com/marbl/Krona"
