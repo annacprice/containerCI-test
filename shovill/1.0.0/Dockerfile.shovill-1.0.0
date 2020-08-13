@@ -19,7 +19,6 @@ Mash_version=2.1.1 \
 seqtk_version=1.3 \
 pigz_version=2.4 \
 Trimmomatic_version=0.36 \
-pilon_version=1.22 \
 shovill_version=1.0.0
 
 ENV PACKAGES="wget parallel python make g++ openjdk-11-jre pilon"
@@ -76,7 +75,8 @@ RUN wget zlib.net/pigz/pigz-${pigz_version}.tar.gz \
 && wget -O /usr/local/bin/samclip https://raw.githubusercontent.com/tseemann/samclip/master/samclip \
 && chmod +x /usr/local/bin/samclip \
 && wget http://www.usadellab.org/cms/uploads/supplementary/Trimmomatic/Trimmomatic-${Trimmomatic_version}.zip \
-&& unzip Trimmomatic-${Trimmomatic_version}.zip \ 
+&& unzip Trimmomatic-${Trimmomatic_version}.zip \
+&& echo "#!/bin/bash" >> trimmomatic \ 
 && echo 'java -jar ~/src/Trimmomatic-0.36/trimmomatic-0.36.jar $@' >> /usr/bin/trimmomatic \
 && chmod +x /usr/bin/trimmomatic
 
