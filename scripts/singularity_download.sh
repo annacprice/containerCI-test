@@ -4,5 +4,5 @@ container_list=("abricate" "centrifuge" "kraken2" "krona" "minimap2" "multiqc" "
 tag="latest"
 
 for item in ${container_list[@]}; do
-  singularity pull --name ${item}-${tag}.sif shub://annacprice/containerCI-test:${item}-${tag}
+  singularity pull --name ${item}-${tag}.sif docker://annacprice/${item}:${tag}
 done
