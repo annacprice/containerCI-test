@@ -26,7 +26,7 @@ Trimmomatic_version=0.38
 KMC_version=3.1.1
 shovill_version=1.1.0
 
-PACKAGES="wget parallel python make g++ openjdk-11-jre pilon"
+PACKAGES="wget parallel python make g++ openjdk-11-jre pilon locales locales-all"
 
 PACKAGES2="zlib1g-dev libc6-dev bc unzip libbz2-dev liblzma-dev libcurl4-openssl-dev libncurses5-dev libfindbin-libs-perl"
 
@@ -92,6 +92,10 @@ wget -O shovill-${shovill_version}.tar.gz https://github.com/tseemann/shovill/ar
 && chmod +x /usr/local/bin/shovill-${shovill_version}/bin/shovill \
 && rm *.tar.gz *.tar *.tgz *.zip
 
+LC_ALL=en_US.UTF-8
+LANG=en_US.UTF-8
+LANGUAGE=en_US.UTF-8
+
 PATH=${PATH}:/usr/local/bin/SPAdes-${SPAdes_version}-Linux/bin:/usr/local/bin/MEGAHIT-${MEGAHIT_version}-Linux-x86_64-static/bin:/usr/local/bin/KMC${KMC_version}.linux:/usr/local/bin/velvet_${velvet_version}:/usr/local/bin/Lighter-${Lighter_version}:/usr/local/bin/bwa-${bwa_version}:/usr/local/bin/seqtk-${seqtk_version}:/usr/local/bin/pigz-${pigz_version}:/usr/local/bin/shovill-${shovill_version}/bin
 
 %environment
@@ -110,8 +114,11 @@ export pigz_version=2.4
 export Trimmomatic_version=0.38
 export KMC_version=3.1.1
 export shovill_version=1.1.0
-export PACKAGES="wget parallel python make g++ openjdk-11-jre pilon"
+export PACKAGES="wget parallel python make g++ openjdk-11-jre pilon locales locales-all"
 export PACKAGES2="zlib1g-dev libc6-dev bc unzip libbz2-dev liblzma-dev libcurl4-openssl-dev libncurses5-dev libfindbin-libs-perl"
+export LC_ALL=en_US.UTF-8
+export LANG=en_US.UTF-8
+export LANGUAGE=en_US.UTF-8
 export PATH=${PATH}:/usr/local/bin/SPAdes-${SPAdes_version}-Linux/bin:/usr/local/bin/MEGAHIT-${MEGAHIT_version}-Linux-x86_64-static/bin:/usr/local/bin/KMC${KMC_version}.linux:/usr/local/bin/velvet_${velvet_version}:/usr/local/bin/Lighter-${Lighter_version}:/usr/local/bin/bwa-${bwa_version}:/usr/local/bin/seqtk-${seqtk_version}:/usr/local/bin/pigz-${pigz_version}:/usr/local/bin/shovill-${shovill_version}/bin
 %runscript
 exec /bin/bash "$@"
