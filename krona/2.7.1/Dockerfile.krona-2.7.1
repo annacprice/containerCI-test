@@ -8,7 +8,7 @@ about.home="https://github.com/marbl/Krona"
 
 ENV krona_version=2.7.1
 
-ENV PACKAGES="wget parallel make perl curl"
+ENV PACKAGES="wget parallel make perl curl locales locales-all"
 
 RUN apt-get update \
 && apt-get install -y $PACKAGES \
@@ -19,3 +19,7 @@ RUN apt-get update \
 && ./install.pl \
 && ./updateTaxonomy.sh
 
+RUN locale-gen en_GB.UTF-8
+ENV LANG en_GB.UTF-8
+ENV LANGUAGE en_GB:en
+ENV LC_ALL en_GB.UTF-8
