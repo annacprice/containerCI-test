@@ -8,10 +8,16 @@ about.home="https://github.com/DerrickWood/kraken2"
 
 ENV kraken2_version=2.0.8
 
-RUN apt-get update && apt-get install -y gcc g++ wget parallel build-essential rsync unzip ncbi-blast+ \
+ENV PACKAGES="gcc g++ wget parallel build-essential rsync unzip ncbi-blast+ locales locales-all"
+
+RUN apt-get update && apt-get install -y $PACKAGES \
 && wget https://github.com/DerrickWood/kraken2/archive/v${kraken2_version}-beta.tar.gz \
 && tar -xzf v${kraken2_version}-beta.tar.gz \
 && rm v${kraken2_version}-beta.tar.gz \
 && cd kraken2-${kraken2_version}-beta \
 && ./install_kraken2.sh /usr/local/bin
 
+RUN locale-gen en_GB.UTF-8
+ENV LANG en_GB.UTF-8
+ENV LANGUAGE en_GB:en
+ENV LC_ALL en_GB.UTF-8
