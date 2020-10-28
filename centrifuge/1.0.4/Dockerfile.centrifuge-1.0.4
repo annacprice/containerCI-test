@@ -8,7 +8,7 @@ about.home="https://github.com/DaehwanKimLab/centrifuge"
 
 ENV centrifuge_version=1.0.4-beta
 
-ENV PACKAGES="wget parallel make g++ gcc libbz2-dev liblzma-dev zlib1g-dev perl" \
+ENV PACKAGES="wget parallel make g++ gcc libbz2-dev liblzma-dev zlib1g-dev perl locales locales-all" \
 PYTHON="python python-pip"
 
 RUN apt-get update \
@@ -17,3 +17,8 @@ RUN apt-get update \
 && tar -xzf centrifuge-${centrifuge_version}.tar.gz -C /usr/local/bin  \
 && make -C /usr/local/bin/centrifuge-${centrifuge_version} -j 4 \
 && make install -C /usr/local/bin/centrifuge-${centrifuge_version}
+
+RUN locale-gen en_GB.UTF-8
+ENV LANG en_GB.UTF-8
+ENV LANGUAGE en_GB:en
+ENV LC_ALL en_GB.UTF-8
