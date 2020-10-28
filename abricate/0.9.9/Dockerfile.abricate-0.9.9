@@ -8,7 +8,7 @@ about.home="https://github.com/tseemann/abricate"
 
 ENV abricate_version=0.9.9
 
-ENV PACKAGES="wget parallel bioperl ncbi-blast+ gzip unzip" \
+ENV PACKAGES="wget parallel bioperl ncbi-blast+ gzip unzip locales locales-all" \
 PACKAGES2="libjson-perl libtext-csv-perl libpath-tiny-perl libfile-slurp-perl liblwp-protocol-https-perl libwww-perl"
 
 RUN apt-get update \
@@ -21,5 +21,10 @@ RUN apt-get update \
 && chmod +x /usr/local/bin/any2fasta
 
 ENV PATH ${PATH}:/usr/local/bin/abricate-${abricate_version}/bin
+
+RUN locale-gen en_GB.UTF-8
+ENV LANG en_GB.UTF-8
+ENV LANGUAGE en_GB:en
+ENV LC_ALL en_GB.UTF-8
 
 RUN abricate --setupdb
