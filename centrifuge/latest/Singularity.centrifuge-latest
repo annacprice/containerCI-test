@@ -12,7 +12,7 @@ about.home="https://github.com/DaehwanKimLab/centrifuge"
 
 centrifuge_version=1.0.4-beta
 
-PACKAGES="wget parallel make g++ gcc libbz2-dev liblzma-dev zlib1g-dev perl"
+PACKAGES="wget parallel make g++ gcc libbz2-dev liblzma-dev zlib1g-dev perl locales locales-all"
 PYTHON="python python-pip"
 
 apt-get update \
@@ -21,10 +21,18 @@ apt-get update \
 && tar -xzf centrifuge-${centrifuge_version}.tar.gz -C /usr/local/bin  \
 && make -C /usr/local/bin/centrifuge-${centrifuge_version} -j 4 \
 && make install -C /usr/local/bin/centrifuge-${centrifuge_version}
+
+locale-gen en_GB.UTF-8
+LANG=en_GB.UTF-8
+LANGUAGE=en_GB:en
+LC_ALL=en_GB.UTF-8
 %environment
 export centrifuge_version=1.0.4-beta
-export PACKAGES="wget parallel make g++ gcc libbz2-dev liblzma-dev zlib1g-dev perl"
+export PACKAGES="wget parallel make g++ gcc libbz2-dev liblzma-dev zlib1g-dev perl locales locales-all"
 export PYTHON="python python-pip"
+export LANG=en_GB.UTF-8
+export LANGUAGE=en_GB:en
+export LC_ALL=en_GB.UTF-8
 %runscript
 exec /bin/bash "$@"
 %startscript
